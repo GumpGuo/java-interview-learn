@@ -51,7 +51,7 @@
 
 ## 8、Mybatis是否可以映射Enum类 ##
  - 可以，不但可以映射枚举类。可以映射任何对象到。通过自定义一个TypeHandler。 setParamter()方法和 getResult()方法
- - TypeHanler有两个作用。一个是完成JDBCType到JavaType的转换，另外一个是JavaType到JdbcType的转换。体现为setParameter()和getResult()两个方法，分别代表设置sql问号占位符参数和获取列查询结果。
+ - TypeHandler有两个作用。一个是完成JDBCType到JavaType的转换，另外一个是JavaType到JdbcType的转换。体现为setParameter()和getResult()两个方法，分别代表设置sql问号占位符参数和获取列查询结果。
 
 ## 9、#{} 和${} 有什么区别##
 - #{} 是占位符，会进行预编译处理，${}是拼接符，字符串替换。没有预编译处理。
@@ -61,7 +61,7 @@
 
 ## 10、 mybatis能执行一对一和一对多的关联查询吗？ ##
 - 支持。不止支持一对一、一对多的关联查询。还支持多对多、多对一的关联插叙。
-- 一对一 assocation 
+- 一对一 association 
 - 一对多 collection
 
 ## 11、 Mybatis是否支持延迟加载？原理？ ##
@@ -105,3 +105,43 @@
 5. StatementHandler：数据库会话其，串联起参数映射的处理和运行结果映射的处理
 6. 参数处理：对输入参数的类型进行处理，并预编译
 7. 结果处理：对返回结果类型进行处理。根据对象映射规则。返回相应的对象。
+
+## 17、Mybatis的功能架构是怎么样的？
+ - 我们一般把mybatis的功能架构分为三层：API接口层、数据处理层、基础支撑层
+   - API接口层：提供给外部使用的API接口，开发人员通过这些本地API来操作数据库
+   - 数据处理层：负责具体的SQL查找、SQL解析、SQL执行和执行结果映射处理等。
+   - 基础支撑层：负责最基础的功能支撑，包括连接管理、事务管理、配置加载和缓存处理。
+
+## 18、为什么Mybatis的接口不需要实现？
+ - Mybatis通过动态代理的方式生成具体的代理类。因此开发者本身不需要实现接口。
+   - 获取Mapper的过程
+     - Mapper =》MapperProxyFactory=》MapperProxy=》MapperMethod=》execute
+     - 获取Mapper，首选需要获取MapperProxyFactory对象，通过该对象创建MapperProxy对象。通过执行MapperMethod执行SQL语句。
+
+## 18、Mybatis都有哪些执行器？？
+ - 有三种基本执行器SimpleExecutor、ReuseExecutor、BatchExecutor
+   - SimpleExecutor:每执行一次update或者select，就开启一个是Statement对象，用完立刻关闭
+   - ReuseExecutor:执行Select或select，以SQL为key创建Statement对象，存在则使用，不存在则创建。用完后，不关闭Statement对象，而是放在Map<String,Statement>中，供下一次使用。
+   - BatchExecutor:执行Update(没有Select)，将所有sql都添加到批处理中（addBatch），等待统一执行（executeBatch()），它缓存了多个statement对象，每个对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。
+ - 作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
+### Mybatis如何指定使用哪种Executor？
+ - mybatis配置文件中配置。也可以手动给DefaultSqlSessionFactory的创建SqlSession方法传递ExecutorType。
+
+## 19. 除了常用的 select、insert、update、delete标签。还有什么标签。
+ - resultMap include sql if where choose set foreach collection association等。
+
+## 20. Mybatis是如何进行分页的
+(1) 使用RowBounds对象进行分页，他是针对ResultSet结果集进行的内存分页，而非物理分页。
+(2) 使用物理分页的SQL语句实现物理分页功能。
+(3) 使用分页插件进行分页。
+
+## 21.Mybatis插件的原理是什么？
+1. Mybatis通过 Executor【SQL执行器】、StatementHandler【Sql语法构建对象】、ParameterHandler【参数处理器】、ResultSetHandler【结果集处理器】四大扩展机制完成自定义插件实现。
+2. 分页插件的实现原理：
+   - 根据mybatis提供的插件接口，实现自定义插件。拦截了Executor的query方法，在执行sql的时候，拦截执行的SQL，根据dialect方言，重写SQL。
+   - 
+
+
+
+ 	
+
