@@ -73,7 +73,7 @@
 				3. ContentRefreshedEvent：ApplicationContext初始化或者刷新完后触发的事件
 				4. ContentClosedEvent：ApplicationContext关闭后触发的事件。
 		2. 事件监听者角色：ApplicationListener充当了事件监听者角色。定义了一个onApplicationEvent()方法了处理ApplicationEvent。    @EventListener + @Component\@Service  或者实现ApplicationListener方法。
-		3. 事件监听者角色：ApplicationEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
+		3. 事件监发布者角色：ApplicationEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
 	4. 事件驱动的好处
 		1. 没有耦合的关联。事件发布者不需要预先知道订阅这的存在。
 		2. 异步消息传递，业务逻辑可以同时发生。
