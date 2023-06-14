@@ -51,14 +51,12 @@
 	2. TransactionDefinition.PROPAGATION_ REQUIRES_NEW：创建一个新的事务。如果当前存在事务，则把当前事务挂起。
 	3. TransactionDefinition.PROPAGATION_NESTED：创建一个新的事物。如果当前存在事务，则嵌套到当前事务来运行。（父子任务回滚）
 	4. TransactionDefinition.PROPAGATION_MANDATORY：如果当前有事务的，则加入打当前事务，如果没有的，则抛出异常。
-	
- 
 	5. TransactionDefinition.PROPAGATION_SUPPORTS：如果当前有事务的，则加入该事务，如果没有的则非事务方式运行。
 	6. TransactionDefinition.PROPAGATION_ NOT_SUPPORTED：非事务方式运行。当前存在事务的就挂起。
 	7. TransactionDefinition.PROPAGATION_NEVER：非事务方式运行。如果当前存在事务的，则抛出异常。
 
 2. 事务隔离级别
-	1.  Default:使用数据库默认的隔离几倍
+	1.  Default:使用数据库默认的隔离级别
 	2.  读未提交
 	3.  读已提交
 	4.  可重复度
@@ -69,13 +67,13 @@
 	2. Spring的事件驱动是观察者模式的经典应用。
 	3. Spring事件驱动的三种角色：
 		1. 事件角色：ApplicationEvent充当事件角色，集成了EventObject并实现了Seriablizable接口。	
-			1. spirng默认存在以下事件，都是ApplicationEvent的实现（集成自ApplicationEvent类）
-				1. ContextStartedEvent:ApplicaitonContext启动后触发的事件
-				2. ContextStoppedEvent：ApplicContest停止后触发的事件
+			1. Spring默认存在以下事件，都是ApplicationEvent的实现（集成自ApplicationEvent类）
+				1. ContextStartedEvent:ApplicationContext启动后触发的事件
+				2. ContextStoppedEvent：ApplicationContest停止后触发的事件
 				3. ContentRefreshedEvent：ApplicationContext初始化或者刷新完后触发的事件
 				4. ContentClosedEvent：ApplicationContext关闭后触发的事件。
-		2. 事件监听者角色：ApplicationListenter充当了事件监听者角色。定义了一个onApplicationEvent()方法了处理ApplicationEvent。    @EventListener + @Component\@Service  或者实现ApplicationListener方法。
-		3. 事件监听者角色：ApplicaitonEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
+		2. 事件监听者角色：ApplicationListener充当了事件监听者角色。定义了一个onApplicationEvent()方法了处理ApplicationEvent。    @EventListener + @Component\@Service  或者实现ApplicationListener方法。
+		3. 事件监听者角色：ApplicationEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
 	4. 事件驱动的好处
 		1. 没有耦合的关联。事件发布者不需要预先知道订阅这的存在。
 		2. 异步消息传递，业务逻辑可以同时发生。
@@ -94,9 +92,9 @@
 			1. @Configuration+@Bean+ FilterRegisterationBean实现。
 3. 监听器：监听器也是Servlet层面的，可以用于监听Web应用中的某些对象，信息的创建、销毁和修改等动作发生，然后做出相应的响应处理。
 	# 1. 监听器分为三类 #
-	1.  ServletContext，实现接口ServerletContextListener。
+	1.  ServletContext，实现接口ServletContextListener。
 	2.  HttpSession，实现接口HttpSessionListenter。
-	3.  ServertRequest，实现接口ServerletRequestListener。
+	3.  ServletRequest，实现接口ServletRequestListener。
 	4.  实现方式和Filter一样。一种是只加@Compoonent 。另一种是@WebListener和@ServertComponentScan一起使用。
 ### 拦截器、监听器、过滤器的不同点 ###
 1. 作用域不同。
