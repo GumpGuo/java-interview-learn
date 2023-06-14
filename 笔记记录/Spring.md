@@ -48,31 +48,115 @@
 ## 四、Spring事务管理 ##
 1. **Spring事务有哪几种传播行为(7中。)**
 	1. TransactionDefinition.PROPAGATION_REQUIRED：如果当前存在事务则加入该事务，如果没有事务则创建。
-	2. TransactionDefinition.PROPAGATION_REQUIRES_NEW：创建一个新的事务。如果当前存在事务，则把当前事务挂起。
+	2. TransactionDefinition.PROPAGATION_ REQUIRES_NEW：创建一个新的事务。如果当前存在事务，则把当前事务挂起。
 	3. TransactionDefinition.PROPAGATION_NESTED：创建一个新的事物。如果当前存在事务，则嵌套到当前事务来运行。（父子任务回滚）
 	4. TransactionDefinition.PROPAGATION_MANDATORY：如果当前有事务的，则加入打当前事务，如果没有的，则抛出异常。
 	
  
 	5. TransactionDefinition.PROPAGATION_SUPPORTS：如果当前有事务的，则加入该事务，如果没有的则非事务方式运行。
-	6. TransactionDefinition.PROPAGATION_NOT_SUPPORTED：非事务方式运行。当前存在事务的就挂起。
+	6. TransactionDefinition.PROPAGATION_ NOT_SUPPORTED：非事务方式运行。当前存在事务的就挂起。
 	7. TransactionDefinition.PROPAGATION_NEVER：非事务方式运行。如果当前存在事务的，则抛出异常。
+
 2. 事务隔离级别
 	1.  Default:使用数据库默认的隔离几倍
 	2.  读未提交
 	3.  读已提交
 	4.  可重复度
 	5.  线性化
-# Spring中的事件驱动是什么？？ #
-1. 
+# Spring中的事件驱动（观察者模式）是什么？？ #
+1. 首先理解观察者模式是什么？
+	1. 观察者模式：是一种对象行为模式。表示一种对象和另一种对象之间具有依赖关系，当一个对象发生改变时，依赖这个对象的所有对象也会做出反应。
+	2. Spring的事件驱动是观察者模式的经典应用。
+	3. Spring事件驱动的三种角色：
+		1. 事件角色：ApplicationEvent充当事件角色，集成了EventObject并实现了Seriablizable接口。	
+			1. spirng默认存在以下事件，都是ApplicationEvent的实现（集成自ApplicationEvent类）
+				1. ContextStartedEvent:ApplicaitonContext启动后触发的事件
+				2. ContextStoppedEvent：ApplicContest停止后触发的事件
+				3. ContentRefreshedEvent：ApplicationContext初始化或者刷新完后触发的事件
+				4. ContentClosedEvent：ApplicationContext关闭后触发的事件。
+		2. 事件监听者角色：ApplicationListenter充当了事件监听者角色。定义了一个onApplicationEvent()方法了处理ApplicationEvent。    @EventListener + @Component\@Service  或者实现ApplicationListener方法。
+		3. 事件监听者角色：ApplicaitonEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
+	4. 事件驱动的好处
+		1. 没有耦合的关联。事件发布者不需要预先知道订阅这的存在。
+		2. 异步消息传递，业务逻辑可以同时发生。
+		3. 多对多的交互，发布订阅模式。
+    5. 
 
 ## Spring中拦截器、过滤器、监听器的区别 ##
-1. 拦截器
-2. 过滤器
-3. 监听器
+1. 拦截器Interceptor：拦截器是依赖于IOC容器的，在实现上面基于Java动态代理实现。是AOP的一种表现。
+	1. 实现HandlerInterceptor接口
+	2. 通过WebMvcConfig配置，注册过滤器。
+2. 过滤器：过滤器是Servert容器层面的，在实现上基于函数回调，可以对几乎所有的请求进行过滤。过滤器是对数据进行过滤，预处理的过程。
+	1. Spring实现过滤器的方式
+		1. 无路径、无顺序@Component。直接实现Filter。并使用Component。
+		2. 有路径无顺序 @WebFilter+@ServletComponentScan:通过实现Filter接口，并增加@WebFilter注解。需要在启动类中家@ServletComponentScan注解（扫描@WebFilter,@WebServlet，@WebListener并注入bean）。
+		3. 有顺序有路径
+			1. @Configuration+@Bean+ FilterRegisterationBean实现。
+3. 监听器：监听器也是Servlet层面的，可以用于监听Web应用中的某些对象，信息的创建、销毁和修改等动作发生，然后做出相应的响应处理。
+	# 1. 监听器分为三类 #
+	1.  ServletContext，实现接口ServerletContextListener。
+	2.  HttpSession，实现接口HttpSessionListenter。
+	3.  ServertRequest，实现接口ServerletRequestListener。
+	4.  实现方式和Filter一样。一种是只加@Compoonent 。另一种是@WebListener和@ServertComponentScan一起使用。
+### 拦截器、监听器、过滤器的不同点 ###
+1. 作用域不同。
+2. 依赖不同
+3. 使用场景不同<br/>
+  （1）过滤器：设置字符编码、URL级别的权限访问控制、过滤敏感词汇、压缩响应信息等、身份验证、资源过滤<br/>
+  （2）拦截器：拦截未登入、审计日志等<br/>
+  （3）监听器：统计在线人数、清除过期Session<br/>
 
 
 
 ## SpringBoot知识 ##
-1. SpringBoot的启动流程
-	1. 
-2. Spring集成mybatis和
+## 1. SpringBoot的启动流程 ## 
+[https://blog.csdn.net/BASK2311/article/details/129703129#:~:text=SpringBoot%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%201%201.%20%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%8E%E5%90%AF%E5%8A%A8%E7%B1%BB%202%202.%20%E5%88%9D%E5%A7%8B%E5%8C%96Spring%E5%AE%B9%E5%99%A8%203,3.%20%E5%BC%80%E5%90%AF%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8A%9F%E8%83%BD%204%204.%20%E5%90%AF%E5%8A%A8%E5%86%85%E5%B5%8C%E7%9A%84Web%E6%9C%8D%E5%8A%A1%E5%99%A8%205%205.%20%E5%90%AF%E5%8A%A8SpringBoot%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F](https://blog.csdn.net/BASK2311/article/details/129703129#:~:text=SpringBoot%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%201%201.%20%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%8E%E5%90%AF%E5%8A%A8%E7%B1%BB%202%202.%20%E5%88%9D%E5%A7%8B%E5%8C%96Spring%E5%AE%B9%E5%99%A8%203,3.%20%E5%BC%80%E5%90%AF%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8A%9F%E8%83%BD%204%204.%20%E5%90%AF%E5%8A%A8%E5%86%85%E5%B5%8C%E7%9A%84Web%E6%9C%8D%E5%8A%A1%E5%99%A8%205%205.%20%E5%90%AF%E5%8A%A8SpringBoot%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F "参考地址")
+	1. 执行构造函数。 
+	2. 加载配置文件与启动类：当Springboot项目启动时，会首先读取项目中的配置文件，主要是application.yaml和application.properties文件。这些文件会指定启动端口号、数据库连接等一系列配置信息。同时，SpringBoot也会加载启动类，这个类中有@SpringBootApplication注解。
+	2. 初始化Spring容器：包括初始化bean实例，依赖注入等
+	3. 开启自动配置功能：扫描项目中的类，自动注册bean。
+	4. 启动内嵌的Web服务器，启动内嵌的Web服务器，比如Tomcat或者Jetty，在Web服务器上部署应用
+	5. 启动Springboot应用程序
+
+1. 执行构造函数
+	1. 构造函数完成的四件事情
+		1. 推断当前项目是否是web项目
+		2. 加载所有的初始化器
+		3. 加载所有的监视器
+		4. 设置程序运行的主类
+2. 运行Run方法
+	1. 计时器实例并启动
+	2. 初始化监听器
+	3. 启动监听器
+	4. 装配环境参数
+	5. 打印banner图案
+	6. 上下文区域
+	7. 准备上下文异常报告
+	8. 上下文前置处理器
+		1. 该方法做了三件之。environment环境设置、initialize初始化设置、资源获取并加载以及配置监听
+	9. 上下文刷新。
+	10. 上下文后置处理器
+	11. 发布应用上下文启动
+	12. 执行Runner执行器
+	13. 发布应用上下文就绪并返回
+3. 
+
+## 2. SpringBoot集成mybatis和数据库的流程 ##
+1. 首先引入依赖jar包。
+2. 配置数据库连接信息
+3. 新建Dao类
+4. 新建Mapper接口
+5. 新建Mapper.xml文件
+6. 新建Service接口和实现类
+7. 新建Controller类。测试数据
+
+## SpringBoot的自动装配原理 ##
+1. @SpringBootApplication注解可以看作是三个注解的集合
+	1. @EnableAutoConfiguration：启用SpringBoot的自动配置机制 @Import ( AutoConfigurationImportSelector.class)
+	2. @SpringBootConfiguration：根据Javadoc可知，该注解作用就是将当前的类作为一个JavaConfig，然后触发注解@EnableAutoConfiguration和@ComponentScan的处理，本质上与@Configuration注解没有区别
+	3. @ComponentScan：扫描被@Component（@Service ,@Controller）注解的bean，注解默认会扫描启动类所在的包下所有类，可以自定义不扫描某些bean
+	4. AutoConfigurationImportSelector加载自动装配类，实现了ImportSelector类，完成了以下工作
+		1.  判断自动装配器开关是否打来。
+		2.  获取EnableAutoConfiguration注解中的exclude和excludeName。
+		3.  获取需要自动配置的所有配置类，读取 META-INFO/spring.factories，读取对应的EnableAutoConfiguration.class类名对应的值
+		4.  根据类上的注解判断，若条件满足，则该配置类生效。
