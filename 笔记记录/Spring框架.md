@@ -8,8 +8,8 @@
 	4. 检查是否配置有自定以的init-method方法。
 	5. BeanPostProcessor方法。
 4. bean的销毁
-	1. 是实现了DisableBean接口。执行destory方法
-	2. 是否配置了destory-method属性。执行指定的方法。
+	1. 是实现了DisableBean接口。执行destroy方法
+	2. 是否配置了destroy-method属性。执行指定的方法。
 
 
 ## 二、SpringBean对象的三级缓存 ##
@@ -36,7 +36,7 @@
 ## 五、SpringIOC和AOP概念 ##
 1. IOC：控制反转。 
 	1. 控制对象的工作交由容器管理。
-	2. 只需要配置对象信息即可。 @Auto  @Resource @Respos  @Beab @Service @Controller
+	2. 只需要配置对象信息即可。 @Auto  @Resource @Repository  @Bean @Service @Controller
 2. AOP：面向切面的编程思想。  通过代理实现
 
 
