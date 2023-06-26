@@ -152,5 +152,9 @@
       - 压缩：
    
 # 29、Kafka的message是什么格式的？
- - Kafka的messag
+ - Kafka的message都由一个固定长度的header和可编程度的body组成。将Message存储在日志时采用不同于Producer发送的消息格式。每个日志文件都是一个log entries（日志项）序列：
+   - 1、一个log entry包含一个四个字节整型数（Message长度：值为1+4+N）
+   - 2、一个字节的magic。magic表示本次发布kafka服务程序协议版本号。
+   - 3、4个字节的CRC32值，CRC32用于校验Message
+   - 4、最终N个字节的消息数据。
 
