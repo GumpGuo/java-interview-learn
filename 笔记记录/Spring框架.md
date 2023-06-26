@@ -102,7 +102,7 @@
 	1. 观察者模式：是一种对象行为模式。表示一种对象和另一种对象之间具有依赖关系，当一个对象发生改变时，依赖这个对象的所有对象也会做出反应。
 	2. Spring的事件驱动是观察者模式的经典应用。
 	3. Spring事件驱动的三种角色：
-		1. 事件角色：ApplicationEvent充当事件角色，继承可JDK中的EventObject并实现了Seriablizable接口。	
+		1. 事件角色：ApplicationEvent充当事件角色，继承可JDK中的EventObject并实现了Serializable接口。	
 			1. Spring默认存在以下事件，都是ApplicationEvent的实现（继承自ApplicationEvent类）
 				1. ContextStartedEvent:ApplicationContext启动后触发的事件
 				2. ContextStoppedEvent：ApplicationContest停止后触发的事件
@@ -117,12 +117,13 @@
              - BEFORE_COMMIT：事务提交前
            - @TransactionalEventListener注解指不和发布事件的方法在同一个事务内，发布事件的方法在事务结束后才会执行本监听方法。监听器内部发生异常不会回滚发布事件方法的事务。
 		3. 事件监发布者角色：ApplicationEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
-        	- ada
+        	- ApplicationContext实现了 ApplicationEventPublish接口
+		
 	4. 事件驱动的好处
 		1. 没有耦合的关联。事件发布者不需要预先知道订阅者的存在。
 		2. 异步消息传递，业务逻辑可以同时发生。
 		3. 多对多的交互，发布订阅模式。
-    5. 
+	
 
 ## 九、Spring中拦截器、过滤器、监听器的区别 ##
 1. 拦截器Interceptor：拦截器是依赖于IOC容器的，在实现上面基于Java动态代理实现。是AOP的一种表现。
@@ -130,16 +131,19 @@
 	2. 通过WebMvcConfig配置，注册过滤器。
 2. 过滤器：过滤器是Servlet容器层面的，在实现上基于函数回调，可以对几乎所有的请求进行过滤。过滤器是对数据进行过滤，预处理的过程。
 	1. Spring实现过滤器的方式
-		1. 无路径、无顺序@Component。直接实现Filter。并使用Component。
+		1. 无路径、无顺序@Component。直接实现Filter接口。并使用@Component注解。
 		2. 有路径无顺序 @WebFilter+@ServletComponentScan:通过实现Filter接口，并增加@WebFilter注解。需要在启动类中家@ServletComponentScan注解（扫描@WebFilter,@WebServlet，@WebListener并注入bean）。
 		3. 有顺序有路径
-			1. @Configuration+@Bean+ FilterRegisterationBean实现。
+			1. @Configuration+@Bean+ FilterRegistrationBean实现。
 3. 监听器：监听器也是Servlet层面的，可以用于监听Web应用中的某些对象，信息的创建、销毁和修改等动作发生，然后做出相应的响应处理。
-	# 1. 监听器分为三类 #
+	#### 1. 监听器分为三类 #
 	1.  ServletContext，实现接口ServletContextListener。
 	2.  HttpSession，实现接口HttpSessionListener。
 	3.  ServletRequest，实现接口ServletRequestListener。
-	4.  实现方式和Filter一样。一种是只加@Compoonent 。另一种是@WebListener和@ServletComponentScan一起使用。
+   ####  2. 实现方式和Filter一样。
+    - 一种是只加@Compoonent并实现接口 。
+    - 另一种是@WebListener和@ServletComponentScan一起使用。
+
 ### 拦截器、监听器、过滤器的不同点 ###
 1. 实现方式不同。
 	1. 拦截器：代理模式。

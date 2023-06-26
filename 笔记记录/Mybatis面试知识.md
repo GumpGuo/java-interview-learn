@@ -1,7 +1,7 @@
 # Mybatis面试问题总结 #
 ## 1、什么是Mybatis ##
 ### 优点 ###
-1.	mybatis是一个半ORM（对象关系映射）框架，底层封装了JDBC，开发时只需要关心SQL本身，而不需要进行驱动加载、数据库连接、创建staement等操作。
+1.	mybatis是一个半ORM（对象关系映射）框架，底层封装了JDBC，开发时只需要关心SQL本身，而不需要进行驱动加载、数据库连接、创建statement等操作。
 2.	可以通过XML文件配置或者注解方式配置映射原生关系，可以将POJO配置成数据库中的记录，避免了JDBC代码，手动配置参数，获取结果集等。
 
 ### 缺点 ###
@@ -83,7 +83,7 @@
 	 - index
 	 - open
 	 - close
-	 - separtor
+	 - separator
 	 - collection
  - collection。该属性值是必须指定的。但是不同情况下。该属性的值是不一样的。主要有以下三种情况
 	 - 1、如果传入的是单个参数且参数类型是一个List的时候，collection属性值为list
@@ -94,15 +94,19 @@
 
 
 ## 15.说说Mybatis的以及缓存和二级缓存 ##
-1. 一级缓存：基于PerpetualCache的HashMap本地缓存，其存储作用域为SQLSession.各个SqlSession之间的缓存相互隔离，当Session flush或colose后，该SqlSesion中的所有cache就将清空。mybatis默认打开一级缓存。
-2. 二级缓存：二级缓存与一级缓存的机制相同。默认也是采用PerpetualCache。不同之处在于其存储的作用域为Mapper。可以在多个SQLSession之间共享。并且可以自定义存储源。默认不开启二级w缓存。使用二级缓存属性需要实现Serializable序列化接口，可以在映射文件中配置。
+
+1. 一级缓存：基于PerpetualCache的HashMap本地缓存，其存储作用域为SQLSession.各个SqlSession之间的缓存相互隔离，当Session flush或close后，该SqlSession中的所有cache就将清空。mybatis默认打开一级缓存。
+2. 二级缓存：二级缓存与一级缓存的机制相同。默认也是采用PerpetualCache。不同之处在于其存储的作用域为Mapper。可以在多个SQLSession之间共享。并且可以自定义存储源。默认不开启二级缓存。使用二级缓存属性需要实现Serializable序列化接口，可以在映射文件中配置。 
 
 ## 16、Mybatis工作原理  ##
+ - 构建会话工厂
 1. 读取Mybatis配置文件 --- mybatis-config.xml文件、加载映射问价按---映射文件机SQL映射文件。文件配置了操作数据库的SQL语句。最后生成一个配置对象。
-2. 构造会话工厂：通过Mybatis的环境变量等配置信息构建绘画工厂SqlSessionFactory。
-3. 创建会话对象：有会话工程创建SqlSession对象，该对象中包含了执行SQL语句的所有方法。
+2. 构造会话工厂：通过Mybatis的环境变量等配置信息构建会话工厂SqlSessionFactory。
+   
+3. 创建会话对象：有会话工程创建SqlSession对象，该对象中包含了执行SQL语句的所有方法。   	
+ - 会话运行
 4. Executor执行器：Mybatis底层定义了一个Executor接口来操作数据库，它将根据SqlSession传递的参数动态生成需要执行的SQL语句。同时负责查询缓存的维护。
-5. StatementHandler：数据库会话其，串联起参数映射的处理和运行结果映射的处理
+5. StatementHandler：数据库会话器，串联起参数映射的处理和运行结果映射的处理
 6. 参数处理：对输入参数的类型进行处理，并预编译
 7. 结果处理：对返回结果类型进行处理。根据对象映射规则。返回相应的对象。
 
@@ -118,7 +122,7 @@
      - Mapper =》MapperProxyFactory=》MapperProxy=》MapperMethod=》execute
      - 获取Mapper，首选需要获取MapperProxyFactory对象，通过该对象创建MapperProxy对象。通过执行MapperMethod执行SQL语句。
 
-## 18、Mybatis都有哪些执行器？？
+## 18、Mybatis都有哪些执行器？
  - 有三种基本执行器SimpleExecutor、ReuseExecutor、BatchExecutor
    - SimpleExecutor:每执行一次update或者select，就开启一个是Statement对象，用完立刻关闭
    - ReuseExecutor:执行Select或select，以SQL为key创建Statement对象，存在则使用，不存在则创建。用完后，不关闭Statement对象，而是放在Map<String,Statement>中，供下一次使用。
@@ -137,11 +141,21 @@
 
 ## 21.Mybatis插件的原理是什么？
 1. Mybatis通过 Executor【SQL执行器】、StatementHandler【Sql语法构建对象】、ParameterHandler【参数处理器】、ResultSetHandler【结果集处理器】四大扩展机制完成自定义插件实现。
+ - Mybatis回话的运行需要 Executor 、StatementHandler、ParameterHandler、ResultHandler四大对象配合。插件的实现原理就是在这个四大想调用的时候，插入我们自己的代码。
+ - Mybatis提供了Plugin类，实现了InvocationHandler接口，使用Plugin生成对象，代理对象在调用方法的时候就会进入invoke方法。在invoke方法中，如果存在签名的拦截方法，插件的intercept方法就会在这里被我们调用，然后就返回结果。如果不存在签名方法，那么将直接反射调用我们要执行的方法。
+	- 所以自定义拦截器的过程
+	 - 1、实现Interceptor接口
+	 - 2、然后再给插件添加注解，确定要拦截的对象。要拦截的方法。
 2. 分页插件的实现原理：
    - 根据mybatis提供的插件接口，实现自定义插件。拦截了Executor的query方法，在执行sql的时候，拦截执行的SQL，根据dialect方言，重写SQL。
-   - 
+	 - 分页插件过程
+		- 1、首先判断是否需要分页
+		- 2、判断是否需要count
+		- 3、判断是否需要分页查询
+		- 4、
 
-
-
+## 22、Mapper接口为什么不需要实现？
+ - Mapper都是通过动态代理方式生成的。不需要实现。
+	- 获取Mapper的过程
  	
 

@@ -60,9 +60,10 @@
             - @ConditionOnMissingBean
             - @ConditionOnSingleCandidate
             - @ConditionOnProperty
+            - ...
 ## 4.介绍一下SpringBoot，有哪些优点？
  - SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。
- - SpringBoot以约定大于配置核心思想展开工作，相比Spring有以下优势。
+ - SpringBoot以"约定大于配置"核心思想展开工作，相比Spring有以下优势。
    - 1、SpringBoot可以快速的创建Spring应用程序
    - 2、SpringBoot内嵌Tomcat、Jetty、Undertow这样的容器。
    - 3、无需再像Spring一样配置大量的xml文件
