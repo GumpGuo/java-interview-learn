@@ -8,7 +8,7 @@
 4. 启动内嵌的Web服务器，启动内嵌的Web服务器，比如Tomcat或者Jetty，在Web服务器上部署应用
 5. 启动Springboot应用程序
 
-1. 执行构造函数
+1. 执行构造函数 SpringBootApplication
     1. 构造函数完成的四件事情
         1. 推断当前项目是否是web项目
         2. 加载所有的初始化器
@@ -19,13 +19,18 @@
     2. 初始化监听器
     3. 启动监听器
     4. 装配环境参数
+       - 根据前面的webApplication值创建运行环境
+       - 加载属性资源
+       - 加载预监听器集合
     5. 打印banner图案
-    6. 上下文区域
+    6. 上下文区域：根据webApplicationType类型创建web/standard上下文，即创建servlet/reactive的上下文。
     7. 准备上下文异常报告
     8. 上下文前置处理器
         1. 该方法做了三件之。environment环境设置、initialize初始化设置、资源获取并加载以及配置监听
-    9. 上下文刷新。
+    9. 上下文刷新
+        - 这里就是著名的方法。设置bean工厂、生产bean、注册后置处理器、初始化国际化资源、注册监听器。这里要注意的是onRefresh()方法。在这个方法里，最终创建了内置的Tomcat容器。
     10. 上下文后置处理器
+        - 这里会把计时器结束。
     11. 发布应用上下文启动
     12. 执行Runner执行器
     13. 发布应用上下文就绪并返回
@@ -55,3 +60,12 @@
             - @ConditionOnMissingBean
             - @ConditionOnSingleCandidate
             - @ConditionOnProperty
+## 4.介绍一下SpringBoot，有哪些优点？
+ - SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。
+ - SpringBoot以约定大于配置核心思想展开工作，相比Spring有以下优势。
+   - 1、SpringBoot可以快速的创建Spring应用程序
+   - 2、SpringBoot内嵌Tomcat、Jetty、Undertow这样的容器。
+   - 3、无需再像Spring一样配置大量的xml文件
+   - 4、SpringBoot可以自动配置。将原有的XML配置修改为Java配置，将bean注入改为使用@Autowire
+   - 5、提供现有的功能
+   - 6、快速整合常用依赖。spring-webmvc。提供的POM可以简化maven配置。当我们引入核心依赖时，SpringBoot会自动引入其他依赖。
