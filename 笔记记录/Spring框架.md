@@ -14,7 +14,7 @@
 
 ## 二、SpringBean对象的三级缓存 ##
 1. 一级缓存：实例对象的Map。
-2. 二级缓存：实例化未初始化完成的实力对象。
+2. 二级缓存：实例化未初始化完成的实例对象。
 3. 三级缓存：对象工厂的缓存。
 
 ## 三、SpringAOP  ##
@@ -26,7 +26,7 @@
 	5. 通知：增加的逻辑/代码。
 	6. 切面：切入点+通知。
 	7. 织入：将通知应用到目标对象，生成代理对象的过程动作。
-2. 通知的类型有拿下
+2. 通知的类型有哪些
 	1. Before
 	2. After
 	3. AfterReturning
@@ -37,7 +37,9 @@
 1. IOC：控制反转。 
 	1. 控制对象的工作交由容器管理。
 	2. 只需要配置对象信息即可。 @Auto  @Resource @Repository  @Bean @Service @Controller
-2. AOP：面向切面的编程思想。  通过代理实现
+2. AOP：面向切面的编程思想。  通过代理实现。JDK动态代理和CGlib代理
+ - JDK动态代理：InvocationHandler接口和Proxy类。
+ - CGlib代理：MethodInterceptor接口和Enhancer类。
 
 
 ## 六、SpringMVC ##

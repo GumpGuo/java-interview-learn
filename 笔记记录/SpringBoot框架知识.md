@@ -46,7 +46,12 @@
     2. @SpringBootConfiguration：根据Javadoc可知，该注解作用就是将当前的类作为一个JavaConfig，然后触发注解@EnableAutoConfiguration和@ComponentScan的处理，本质上与@Configuration注解没有区别
     3. @ComponentScan：扫描被@Component（@Service ,@Controller）注解的bean，注解默认会扫描启动类所在的包下所有类，可以自定义不扫描某些bean
     4. AutoConfigurationImportSelector加载自动装配类，实现了ImportSelector类，完成了以下工作
-        1.  判断自动装配器开关是否打来。
+        1.  判断自动装配器开关是否打开。
         2.  获取EnableAutoConfiguration注解中的exclude和excludeName。
         3.  获取需要自动配置的所有配置类，读取 META-INFO/spring.factories，读取对应的EnableAutoConfiguration.class类名对应的值
         4.  根据类上的注解判断，若条件满足，则该配置类生效。
+            - eg
+            - @ConditionOnBean
+            - @ConditionOnMissingBean
+            - @ConditionOnSingleCandidate
+            - @ConditionOnProperty
