@@ -289,11 +289,51 @@
      - 重量级锁：指向锁监视器的指正。 2bit锁标识位 10
 - 参考 【https://www.cnblogs.com/wuqinglong/p/9945618.html】
 
-## 32、RestFul是什么？
-    
-
+## 32、RESTful API是什么？
+ - RESTful API 可以让你看到 URL+Http Method 就知道这个 URL 是干什么的，让你看到了 HTTP 状态码（status code）就知道请求结果如何。
+ - “资源”在网络传输中以某种“表现形式”进行“状态转移”
+ - 几个概念：
+    - 资源：我们可以把真实的对象数据称为资源。一个资源既可以是一个集合，也可以是单个个体。
+    - 表现形式："资源"是一种信息实体，它可以有多种外在表现形式。我们把"资源"具体呈现出来的形式比如 json，xml，image,txt 等等叫做它的"表现层/表现形式"。
+    - 状态转移：REST 中的状态转移更多地描述的服务器端资源的状态，比如你通过增删改查（通过 HTTP 动词实现）引起资源状态的改变。
+ - 总结：
+    - 1、每一个 URI 代表一种资源；
+    - 2、客户端和服务器之间，传递这种资源的某种表现形式比如 json，xml，image,txt 等等；
+    - 3、客户端通过特定的 HTTP 动词，对服务器端资源进行操作，实现"表现层状态转化"
+### 1、RESTful API规范
+ - 动作：
+    - GET: 请求从服务器获取特定资源。举个例子：GET /classes（获取所有班级）
+    - POST: 在服务器上创建一个新的资源。举个例子：POST /classes（创建班级）
+    - PUT: 更新服务器上的资源（客户端提供更新后的整个资源）。举个例子：PUT /classes/12（更新编号为 12 的班级）
+    - DELETE: 从服务器删除特定的资源。举个例子：DELETE /classes/12（删除编号为 12 的班级）
+    - PATCH: 更新服务器上的资源（客户端提供更改的属性，可以看做作是部分更新），使用的比较少，这里就不举例子了。
+ - 路径（接口命名）
+  - 1、网址中不能有动词，只能有名词，API 中的名词也应该使用复数。 因为 REST 中的资源往往和数据库中的表对应，而数据库中的表都是同种记录的"集合"（collection）。如果 API 调用并不涉及资源（如计算，翻译等操作）的话，可以用动词。
+  - 2、 不用大写字母，建议用中杠 - 不用下杠 _ 。
+  - 3、善用版本化 API。
+  - 4、接口尽量使用名词，避免使用动词。
+ - 过滤信息：如果我们在查询的时候需要添加特定条件的话，建议使用 url 参数的形式。
+ - 状态码
+ ![img_2.png](img_2.png)
 
 ## 33、JWT是什么？
-
-
+ - JWT （JSON Web Token） 是目前最流行的跨域认证解决方案，是一种基于 Token 的认证授权机制。 从 JWT 的全称可以看出，JWT 本身也是 Token，一种规范化之后的 JSON 结构的 Token。
+ - JWT 自身包含了身份验证所需要的所有信息，因此，我们的服务器不需要存储 Session 信息。这显然增加了系统的可用性和伸缩性，大大减轻了服务端的压力。
+ - JWT由哪些部分组成？
+  - JWT 本质上就是一组字串，通过（.）切分成三个为 Base64 编码的部分：
+     - Header：描述JWT的元数据，定义了生成签名的算法以及Token的类型。
+     - PayLoad：用来存放实际需要传递的数据
+     - Signature（签名）：服务器通过 Payload、Header 和一个密钥(Secret)使用 Header 里面指定的签名算法（默认是 HMAC SHA256）生成。
+        - 【参考文档：https://javaguide.cn/system-design/security/jwt-intro.html#jwt-%E7%94%B1%E5%93%AA%E4%BA%9B%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90】
+    
+## 34、JWT的优缺点？
+ - 优势：
+    - 无状态
+    - 有效避免了CSRF攻击
+    - 适合移动端
+    - 单点登入友好
+ 【参考文献：https://javaguide.cn/system-design/security/advantages-and-disadvantages-of-jwt.html】
+      
+## 35、SSO单点登入？？
+ 【参考文献：https://javaguide.cn/system-design/security/sso-intro.html#%E8%B7%A8%E5%9F%9F%E7%99%BB%E5%BD%95%E3%80%81%E7%99%BB%E5%87%BA】：    
 
