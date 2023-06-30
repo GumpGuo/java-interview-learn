@@ -7,7 +7,7 @@
 3. 开启自动配置功能：扫描项目中的类，自动注册bean。
 4. 启动内嵌的Web服务器，启动内嵌的Web服务器，比如Tomcat或者Jetty，在Web服务器上部署应用
 5. 启动Springboot应用程序
-
+---------
 1. 执行构造函数 SpringBootApplication
     1. 构造函数完成的四件事情
         1. 推断当前项目是否是web项目
@@ -34,7 +34,6 @@
     11. 发布应用上下文启动
     12. 执行Runner执行器
     13. 发布应用上下文就绪并返回
-3.
 
 ## 2. SpringBoot集成mybatis和数据库的流程 ##
 1. 首先引入依赖jar包。
@@ -61,6 +60,8 @@
             - @ConditionOnSingleCandidate
             - @ConditionOnProperty
             - ...
+    
+
 ## 4.介绍一下SpringBoot，有哪些优点？
  - SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。
  - SpringBoot以"约定大于配置"核心思想展开工作，相比Spring有以下优势。

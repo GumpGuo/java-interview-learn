@@ -5,7 +5,7 @@
 4. bean的初始化过程 
 	1. 查看Aware接口。BeanNameAware、BeanClassLoaderAware、BeanFactoryAware。。。起亚
 	2. 查看是否有PreBeanPostProcessor
-	3. 检查InitializingBean以决定屌用afterProperties方法
+	3. 检查InitializingBean以决定调用afterProperties方法
 	4. 检查是否配置有自定以的init-method方法。
 	5. BeanPostProcessor方法。
 4. bean的销毁
@@ -17,6 +17,7 @@
 1. 一级缓存：实例对象的Map。
 2. 二级缓存：实例化未初始化完成的实例对象。
 3. 三级缓存：对象工厂的缓存。
+ - ？ 为什么要使用三级缓存。
 
 ## 三、SpringAOP  ##
 1. 概念
