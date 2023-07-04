@@ -3,11 +3,12 @@
 2. 利用Java Reflection API 创建一个bean实例
 3. bean对象的属性注入 
 4. bean的初始化过程 
-	1. 查看Aware接口。BeanNameAware、BeanClassLoaderAware、BeanFactoryAware。。。起亚
-	2. 查看是否有PreBeanPostProcessor
-	3. 检查InitializingBean以决定调用afterProperties方法
+	1. 查看Aware接口。BeanNameAware(注入当前bean对应的name)、BeanClassLoaderAware(注入加载当前bean的classLoader)、BeanFactoryAware(注入当前BeanFactory的引用)。设置相关的依赖
+	2. 查看是否有PreBeanPostProcessor，前置处理接口
+	3. 检查InitializingBean以决定调用afterProperties方法，
 	4. 检查是否配置有自定以的init-method方法。
-	5. BeanPostProcessor方法。
+	5. BeanPostProcessor方法。后置处理
+6. 注册Destruction接口。
 4. bean的销毁
 	1. 是实现了DisableBean接口。执行destroy方法
 	2. 是否配置了destroy-method属性。执行指定的方法。
@@ -20,6 +21,9 @@
  - ？ 为什么要使用三级缓存。
 
 ## 三、SpringAOP  ##
+### 1、谈谈你对AOP的理解？
+ - AOP面向切面编程，可以将那些于业务无关，却为业务模块共同调用的逻辑或者责任封装起来便于减少重复代码，降低模块间的耦合度，并有利于未来的扩展性和可维护性。
+
 1. 概念
 	1. 目标：被通知的对象
 	2. 代理：向目标对象应用通知之后创建的对象
@@ -120,7 +124,6 @@
            - @TransactionalEventListener注解指不和发布事件的方法在同一个事务内，发布事件的方法在事务结束后才会执行本监听方法。监听器内部发生异常不会回滚发布事件方法的事务。
 		3. 事件监发布者角色：ApplicationEventPublisher充当了事件发布者，他也是一个接口。定义了publishEvent方法。
         	- ApplicationContext实现了 ApplicationEventPublish接口
-		
 	4. 事件驱动的好处
 		1. 没有耦合的关联。事件发布者不需要预先知道订阅者的存在。
 		2. 异步消息传递，业务逻辑可以同时发生。

@@ -71,3 +71,5 @@
    - 4、SpringBoot可以自动配置。将原有的XML配置修改为Java配置，将bean注入改为使用@Autowire
    - 5、提供现有的功能
    - 6、快速整合常用依赖。spring-webmvc。提供的POM可以简化maven配置。当我们引入核心依赖时，SpringBoot会自动引入其他依赖。
+
+##
