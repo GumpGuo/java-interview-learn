@@ -204,7 +204,7 @@
 	- 另一个是磁盘上的日志文件（redo log） 
    - 在计算机系统中，用户空间下的缓冲数据一般情况下是无法直接写入磁盘的，中间必须经过操作系统内核空间（kernel space）缓冲区（OS buffer）。因此，redo log buffer写入redo log实际上是先写入OS buffer，然后通过调用fsync()将其刷到redo log file中。
 	 - mysql支持3中将redo log buffer写入 redo log file的时机。可以通过 'innodb_flush_log_at_trx_commit '参数配置。
-	   - 0：延迟写，事务提交时不会将 redo log buffer 中日志写入到 os buffer ，而是每秒写入 os buffer 并调用 fsync() 写入到 redo log file 中。也就是说设置为0时是(大约)每秒刷新写入到磁盘中的，当系统崩溃，会丢失1秒钟的数据。
+	   - 0：延迟写，事务提交时不会将 redo log buffer 中日志写入到 os buffer（page cahe） ，而是每秒写入 os buffer 并调用 fsync() 写入到 redo log file 中。也就是说设置为0时是(大约)每秒刷新写入到磁盘中的，当系统崩溃，会丢失1秒钟的数据。
 	   - 1：实时写，实时刷，事务每次提交都会将 redo log buffer 中的日志写入 os buffer 并调用 fsync() 刷到 redo log file 中。这种方式即使系统崩溃也不会丢失任何数据，但是因为每次提交都写入磁盘，IO的性能较差。
 	   - 2：实时写，延迟刷，每次提交都仅写入到 os buffer ，然后是每秒调用 fsync() 将 os buffer 中的日志写入到 redo log file 。
  - undo log
