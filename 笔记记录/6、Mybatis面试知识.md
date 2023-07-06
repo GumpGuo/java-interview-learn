@@ -31,8 +31,8 @@
 	2.	MyBatis 是半ORM框架，需要编写较多SQL，但是比较灵活，适合于需求变化频繁，快速迭代的项目，比如：电商网站
 
 
-## 5.Mybatis的使用过程、生命周期 ##
-1. 创建SQLSessionFactory
+## 5、Mybatis的使用过程、生命周期 ##
+1. 建SQLSessionFactory
 2. 创建SQLSession
 3. 查找Mapper
 4. 执行SQL语句 /提交事务
@@ -58,24 +58,24 @@
 - \#{}可以有效的防止SQL注入，提高系统安全行，${}不能防止SQL注入。
 - \#{}变量替换实在DBMS中。${}变量替换实在DBMS外。
 
-## 10、 mybatis能执行一对一和一对多的关联查询吗？ ##
+## 10、Mybatis能执行一对一和一对多的关联查询吗？ ##
 - 支持。不止支持一对一、一对多的关联查询。还支持多对多、多对一的关联插叙。
 - 一对一 association 
 - 一对多 collection
 
-## 11、 Mybatis是否支持延迟加载？原理？ ##
+## 11、Mybatis是否支持延迟加载？原理？ ##
 - 支持。Mybatis支持association关联对象和collection关联集合对象的延迟加载。在mybatis配置中，可以配置是否延迟架子啊。lazyLoadingEnabled=true|false.
 - 他的原理是，使用Cglib创建目标对象的代理对象。当调用目标方时。进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发下a.getB()是null值，那么就会单独发送事先保存号的查询关联b对象的SQL。把b查询上来。然后调用a.setB(b)，那么a的对象属性b就优质。
 
 ## 12、如何获取生成的逐渐 ##
 - 新增标签中添加keyProperty="ID"即可。
 
-## 13.Mybatis支持动态SQL吗 ##
+## 13、Mybatis支持动态SQL吗 ##
  - Mybatis有一些支持动态语言的标签。通过OGNL从SQL参数对象中计算表达式的值，根据表达式的值动态拼接SQL，以此来完成动态SQL语句的功能。
  - if where foreach set  
  - choose(when otherwise)
 
-## 14.Mybatis如何执行批量操作 ##
+## 14、Mybatis如何执行批量操作 ##
 1. foreach标签。 可以在SQL语句中迭代一个集合。
  - foreach标签的属性 
 	 - item
@@ -91,9 +91,7 @@
    
 2. 使用ExecutorType.BATCH
 
-
-## 15.说说Mybatis的以及缓存和二级缓存 ##
-
+## 15、说说Mybatis的以及缓存和二级缓存 ##
 1. 一级缓存：基于PerpetualCache的HashMap本地缓存，其存储作用域为SQLSession.各个SqlSession之间的缓存相互隔离，当Session flush或close后，该SqlSession中的所有cache就将清空。mybatis默认打开一级缓存。
 2. 二级缓存：二级缓存与一级缓存的机制相同。默认也是采用PerpetualCache。不同之处在于其存储的作用域为Mapper。可以在多个SQLSession之间共享。并且可以自定义存储源。默认不开启二级缓存。使用二级缓存属性需要实现Serializable序列化接口，可以在映射文件中配置。 
 
@@ -106,8 +104,8 @@
  - 会话运行
 4. Executor执行器：Mybatis底层定义了一个Executor接口来操作数据库，它将根据SqlSession传递的参数动态生成需要执行的SQL语句。同时负责查询缓存的维护。
 5. StatementHandler：数据库会话器，串联起参数映射的处理和运行结果映射的处理
-6. 参数处理：对输入参数的类型进行处理，并预编译
-7. 结果处理：对返回结果类型进行处理。根据对象映射规则。返回相应的对象。
+6. 参数处理（ParameterHandler(参数处理器)）：对输入参数的类型进行处理，并预编译
+7. 结果处理（ResultSetHandler(结果处理器)）：对返回结果类型进行处理。根据对象映射规则。返回相应的对象。
 
 ## 17、Mybatis的功能架构是怎么样的？
  - 我们一般把mybatis的功能架构分为三层：API接口层、数据处理层、基础支撑层
@@ -127,18 +125,18 @@
    - ReuseExecutor:执行Select或select，以SQL为key创建Statement对象，存在则使用，不存在则创建。用完后，不关闭Statement对象，而是放在Map<String,Statement>中，供下一次使用。
    - BatchExecutor:执行Update(没有Select)，将所有sql都添加到批处理中（addBatch），等待统一执行（executeBatch()），它缓存了多个statement对象，每个对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。
  - 作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
-### Mybatis如何指定使用哪种Executor？
+### 1、Mybatis如何指定使用哪种Executor？
  - mybatis配置文件中配置。也可以手动给DefaultSqlSessionFactory的创建SqlSession方法传递ExecutorType。
 
-## 19. 除了常用的 select、insert、update、delete标签。还有什么标签。
+## 19、除了常用的 select、insert、update、delete标签。还有什么标签。
  - resultMap include sql if where choose set foreach collection association等。
 
-## 20. Mybatis是如何进行分页的
+## 20、Mybatis是如何进行分页的
 (1) 使用RowBounds对象进行分页，他是针对ResultSet结果集进行的内存分页，而非物理分页。
 (2) 使用物理分页的SQL语句实现物理分页功能。
 (3) 使用分页插件进行分页。
 
-## 21.Mybatis插件的原理是什么？
+## 21、Mybatis插件的原理是什么？
 1. Mybatis通过 Executor【SQL执行器】、StatementHandler【Sql语法构建对象】、ParameterHandler【参数处理器】、ResultSetHandler【结果集处理器】四大扩展机制完成自定义插件实现。
  - Mybatis回话的运行需要 Executor 、StatementHandler、ParameterHandler、ResultHandler四大对象配合。插件的实现原理就是在这个四大想调用的时候，插入我们自己的代码。
  - Mybatis提供了Plugin类，实现了InvocationHandler接口，使用Plugin生成对象，代理对象在调用方法的时候就会进入invoke方法。在invoke方法中，如果存在签名的拦截方法，插件的intercept方法就会在这里被我们调用，然后就返回结果。如果不存在签名方法，那么将直接反射调用我们要执行的方法。

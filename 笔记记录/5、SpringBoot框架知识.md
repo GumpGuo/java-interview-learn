@@ -48,13 +48,15 @@
 1. @SpringBootApplication注解可以看作是三个注解的集合
     1. @EnableAutoConfiguration：启用SpringBoot的自动配置机制 @Import ( AutoConfigurationImportSelector.class)
     2. @SpringBootConfiguration：根据Javadoc可知，该注解作用就是将当前的类作为一个JavaConfig，然后触发注解@EnableAutoConfiguration和@ComponentScan的处理，本质上与@Configuration注解没有区别
+      -   @Configuration：允许在上下文中注册额外的 bean 或导入其他配置类
     3. @ComponentScan：扫描被@Component（@Service ,@Controller）注解的bean，注解默认会扫描启动类所在的包下所有类，可以自定义不扫描某些bean
-    4. AutoConfigurationImportSelector加载自动装配类，实现了ImportSelector类，完成了以下工作
-        1.  判断自动装配器开关是否打开。
-        2.  获取EnableAutoConfiguration注解中的exclude和excludeName。
-        3.  获取需要自动配置的所有配置类，读取 META-INFO/spring.factories，读取对应的EnableAutoConfiguration.class类名对应的值
-        4.  根据类上的注解判断，若条件满足，则该配置类生效。
-            - eg
+    实现方式：
+    - 4. AutoConfigurationImportSelector加载自动装配类，实现了ImportSelector类，完成了以下工作
+      - 1.  判断自动装配器开关是否打开。
+      - 2.  获取EnableAutoConfiguration注解中的exclude和excludeName。
+      - 3.  获取需要自动配置的所有配置类，读取 META-INFO/spring.factories，读取对应的EnableAutoConfiguration.class类名对应的值
+      - 4.  根据类上的注解判断，若条件满足，则该配置类生效。
+             - eg
             - @ConditionOnBean
             - @ConditionOnMissingBean
             - @ConditionOnSingleCandidate
@@ -62,14 +64,19 @@
             - ...
     
 
-## 4.介绍一下SpringBoot，有哪些优点？
- - SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。
- - SpringBoot以"约定大于配置"核心思想展开工作，相比Spring有以下优势。
-   - 1、SpringBoot可以快速的创建Spring应用程序
-   - 2、SpringBoot内嵌Tomcat、Jetty、Undertow这样的容器。
-   - 3、无需再像Spring一样配置大量的xml文件
-   - 4、SpringBoot可以自动配置。将原有的XML配置修改为Java配置，将bean注入改为使用@Autowire
-   - 5、提供现有的功能
-   - 6、快速整合常用依赖。spring-webmvc。提供的POM可以简化maven配置。当我们引入核心依赖时，SpringBoot会自动引入其他依赖。
+## 4.介绍下SpringBoot，有哪些优点？
+- SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。
+- SpringBoot以"约定大于配置"核心思想展开工作，相比Spring有以下优势。
+    - 1、SpringBoot可以快速的创建Spring应用程序
+    - 2、SpringBoot内嵌Tomcat、Jetty、Undertow这样的容器。
+    - 3、无需再像Spring一样配置大量的xml文件
+    - 4、SpringBoot可以自动配置。将原有的XML配置修改为Java配置，将bean注入改为使用@Autowire
+    - 5、提供现有的功能
+    - 6、快速整合常用依赖。spring-webmvc。提供的POM可以简化maven配置。当我们引入核心依赖时，SpringBoot会自一动引入其他依赖。
 
-##
+## 5、什么事JavaConfig。
+ - Spring JavaConfig 是Spring社区的产品，他提供了配置IOC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的有点在于：
+    - 面向对象的配置
+        - 由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写他的@Bean方法等。
+        - 减少或消除XML配置。
+            - 基于依赖注入原则
