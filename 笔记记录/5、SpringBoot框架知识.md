@@ -74,9 +74,23 @@
     - 5、提供现有的功能
     - 6、快速整合常用依赖。spring-webmvc。提供的POM可以简化maven配置。当我们引入核心依赖时，SpringBoot会自一动引入其他依赖。
 
-## 5、什么事JavaConfig。
+## 5、什么是JavaConfig。
  - Spring JavaConfig 是Spring社区的产品，他提供了配置IOC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的有点在于：
     - 面向对象的配置
         - 由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写他的@Bean方法等。
-        - 减少或消除XML配置。
-            - 基于依赖注入原则
+    - 减少或消除XML配置。
+        - 基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望XML和Java之间来回切换。JavaConfig为开发人员提供了一种纯纯Java方法来配置XML配置概念相似的Spring容器。从技术角度讲，只使用JavaConfig配置类配置容器是可行的，但实际上很多人认为JavaConfig与XML混合匹配是理想的。
+    - 类型安全和重构友好
+        - JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java5.0对泛型的支持，现在可以安类型而不按名称检索bean，不需要被任何强制转换或基于字符串的查找。
+    
+## 6、Spring-boot-starter-parent有什么用？ 
+ -  我们都知道创建一个SpringBoot项目，默认都是有parent的，这个parent就是spring-boot-starter-parent。spring-boot-start-parent主要有如下作用：
+    - 1、定义了Java编译的版本
+    - 2、使用UTF-8编码格式
+    - 3、继承spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所以我们在写依赖时才不需要写版本号
+    - 4、执行打包操作的配置。 
+    - 5、自动化的资源过滤。
+    - 6、自动化的插件配置。
+    - 7、针对application.properties和application.yml的资源过滤，包括通过profile定义的不同环境的配置文件，例如application-dev.properties和application-dev.yml。
+    - 总结就是打包用的。
+
