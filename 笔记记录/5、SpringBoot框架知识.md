@@ -62,7 +62,6 @@
             - @ConditionOnSingleCandidate
             - @ConditionOnProperty
             - ...
-    
 
 ## 4.介绍下SpringBoot，有哪些优点？
 - SpringBoot基于Spring框架开发，用于快速、敏捷的开发新一代Spring应用程序的框架。不是用于替代Spring框架，而是用于提升Spring开发者体验的框架。

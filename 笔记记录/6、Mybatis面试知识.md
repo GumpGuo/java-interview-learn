@@ -13,14 +13,12 @@
 
 
 ## 3、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？ ##
-
  - Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。
  - 而Mybatis在查询关联对象或关联集合对象时，需要手动编写SQL来完成，所以，被称之为半自动ORM映射工具。
 
 ## 4、Hibernate和Mybatis有什么区别 ##
 ### 相同点 ###
  - 都是对JDBC的封装，都是持久层的框架
-
 ### 不同点
 1. 映射关系不同
 2. SQL优化和移植性
@@ -64,13 +62,13 @@
 - 一对多 collection
 
 ## 11、Mybatis是否支持延迟加载？原理？ ##
-- 支持。Mybatis支持association关联对象和collection关联集合对象的延迟加载。在mybatis配置中，可以配置是否延迟架子啊。lazyLoadingEnabled=true|false.
+- 支持。Mybatis支持association关联对象和collection关联集合对象的延迟加载。在mybatis配置中，可以配置是否延迟加载啊。lazyLoadingEnabled=true|false.
 - 他的原理是，使用Cglib创建目标对象的代理对象。当调用目标方时。进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发下a.getB()是null值，那么就会单独发送事先保存号的查询关联b对象的SQL。把b查询上来。然后调用a.setB(b)，那么a的对象属性b就优质。
 
-## 12、如何获取生成的逐渐 ##
+## 12、如何获取生成的主键？ ##
 - 新增标签中添加keyProperty="ID"即可。
 
-## 13、Mybatis支持动态SQL吗 ##
+## 13、Mybatis支持动态SQL吗？ ##
  - Mybatis有一些支持动态语言的标签。通过OGNL从SQL参数对象中计算表达式的值，根据表达式的值动态拼接SQL，以此来完成动态SQL语句的功能。
  - if where foreach set  
  - choose(when otherwise)
@@ -91,15 +89,14 @@
    
 2. 使用ExecutorType.BATCH
 
-## 15、说说Mybatis的以及缓存和二级缓存 ##
-1. 一级缓存：基于PerpetualCache的HashMap本地缓存，其存储作用域为SQLSession.各个SqlSession之间的缓存相互隔离，当Session flush或close后，该SqlSession中的所有cache就将清空。mybatis默认打开一级缓存。
+## 15、说说Mybatis的一级缓存和二级缓存 ##
+1. 一级缓存：基于PerpetualCache的HashMap本地缓存，其存储作用域为SQLSession。各个SqlSession之间的缓存相互隔离，当Session flush或close后，该SqlSession中的所有cache就将清空。mybatis默认打开一级缓存。
 2. 二级缓存：二级缓存与一级缓存的机制相同。默认也是采用PerpetualCache。不同之处在于其存储的作用域为Mapper。可以在多个SQLSession之间共享。并且可以自定义存储源。默认不开启二级缓存。使用二级缓存属性需要实现Serializable序列化接口，可以在映射文件中配置。 
 
 ## 16、Mybatis工作原理  ##
  - 构建会话工厂
 1. 读取Mybatis配置文件 --- mybatis-config.xml文件、加载映射问价按---映射文件机SQL映射文件。文件配置了操作数据库的SQL语句。最后生成一个配置对象。
 2. 构造会话工厂：通过Mybatis的环境变量等配置信息构建会话工厂SqlSessionFactory。
-   
 3. 创建会话对象：有会话工程创建SqlSession对象，该对象中包含了执行SQL语句的所有方法。   	
  - 会话运行
 4. Executor执行器：Mybatis底层定义了一个Executor接口来操作数据库，它将根据SqlSession传递的参数动态生成需要执行的SQL语句。同时负责查询缓存的维护。

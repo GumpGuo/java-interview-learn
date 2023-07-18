@@ -16,4 +16,8 @@
  - 崩溃恢复：
  【参考文档：https://segmentfault.com/a/1190000037550497】
 
-## 2、
+## 2、【https://javaguide.cn/distributed-system/distributed-process-coordination/zookeeper/zookeeper-intro.html】
+
+
+## 3、Zookeeper是什么？
+ - 分布式的
