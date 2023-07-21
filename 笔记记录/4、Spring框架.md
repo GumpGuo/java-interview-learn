@@ -87,7 +87,7 @@
 
 
 ## 七、Spring事务管理 ##
-1. **Spring事务有哪几种传播行为(7种。)**
+### 1. **Spring事务有哪几种传播行为(7种。)**
 	1. TransactionDefinition.PROPAGATION_REQUIRED：如果当前存在事务则加入该事务，如果没有事务则创建。
 	2. TransactionDefinition.PROPAGATION_ REQUIRES_NEW：创建一个新的事务。如果当前存在事务，则把当前事务挂起。
 	3. TransactionDefinition.PROPAGATION_NESTED：创建一个新的事物。如果当前存在事务，则嵌套到当前事务来运行。（父子任务回滚）
@@ -97,7 +97,7 @@
 	6. TransactionDefinition.PROPAGATION_ NOT_SUPPORTED：非事务方式运行。当前存在事务的就挂起。
 	7. TransactionDefinition.PROPAGATION_NEVER：非事务方式运行。如果当前存在事务的，则抛出异常。
 
-2. 事务隔离级别
+### 2. 事务隔离级别
 	1.  Default:使用数据库默认的隔离级别
 	2.  读未提交
 	3.  读已提交
